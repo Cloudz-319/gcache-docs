@@ -1,0 +1,9 @@
+# gcache Documentation
+
+> github.com/bluele/gcache
+
+## Go API
+
+- [github.com/bluele/gcache](/go-api/package-root.html): github.com/bluele/gcache
+- [examples/autoloading](/go-api/pkg-examples-autoloading.html): github.com/bluele/gcache/examples/autoloading
+- [Go API](/go-api.html): github.com/bluele/gcache

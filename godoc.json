@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "source": "sourcey-godoc",
+  "module_path": "github.com/rs/cors",
+  "generated_at": "2026-06-18T14:06:47Z",
+  "packages": [
+    {
+      "importPath": "github.com/rs/cors",
+      "name": "cors",
+      "synopsis": "Package cors is net/http handler to handle CORS related requests as defined by http://www.w3.org/TR/cors/",
+      "doc": "Package cors is net/http handler to handle CORS related requests\nas defined by http://www.w3.org/TR/cors/\n\nYou can configure it by passing an option struct to cors.New:\n\n\tc := cors.New(cors.Options{\n\t    AllowedOrigins:   []string{\"foo.com\"},\n\t    AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodDelete},\n\t    AllowCredentials: true,\n\t})\n\nThen insert the handler in the chain:\n\n\thandler = c.Handler(handler)\n\nSee Options documentation for more options.\n\nThe resulting handler is a standard net/http handler.",
+      "dir": ".",
+      "files": [
+        "cors.go",
+        "utils.go"
+      ],
+      "consts": [],
+      "vars": [],
+      "funcs": [
+        {
+          "name": "AllowAll",
+          "doc": "AllowAll create a new Cors handler with permissive configuration allowing all\norigins with all standard methods with any header and credentials.",
+          "signature": "func AllowAll() *Cors",
+          "position": {
+            "file": "cors.go",
+            "line": 254
+          },
+          "examples": []
+        },
+        {
+          "name": "Default",
+          "doc": "Default creates a new Cors handler with default options.",
+          "signature": "func Default() *Cors",
+          "position": {
+            "file": "cors.go",
+            "line": 248
+          },
+          "examples": []
+        },
+        {
+          "name": "New",
+          "doc": "New creates a new Cors handler with the provided options.",
+          "signature": "func New(options Options) *Cors",
+          "position": {
+            "file": "cors.go",
+            "line": 143
+          },
+          "examples": []
+        }
+      ],
+      "types": [
+        {
+          "name": "Cors",
+          "doc": "Cors http handler",
+          "declaration": "type Cors struct {\n\t// Debug logger\n\tLog Logger\n\t// contains filtered or unexported fields\n}",
+          "kind": "struct",
+          "position": {
+            "file": "cors.go",
+            "line": 109
+          },
+          "fields": [
+            {
+              "name": "Log",
+              "doc": "Debug logger",
+              "type": "Logger"
+            }
+          ],
+          "methods": [
+            {
+              "name": "Handler",
+              "doc": "Handler apply the CORS specification on the request, and add relevant CORS headers\nas necessary.",
+              "signature": "func  Handler(h http.Handler) http.Handler",
+              "position": {
+                "file": "cors.go",
+                "line": 272
+              },
+              "examples": []
+            },
+            {
+              "name": "HandlerFunc",
+              "doc": "HandlerFunc provides Martini compatible handler",
+              "signature": "func  HandlerFunc(w http.ResponseWriter, r *http.Request)",
+              "position": {
+                "file": "cors.go",
+                "line": 295
+              },
+              "examples": []
+            },
+            {
+              "name": "OriginAllowed",
+              "doc": "check the Origin of a request. No origin at all is also allowed.",
+              "signature": "func  OriginAllowed(r *http.Request) bool",
+              "position": {
+                "file": "cors.go",
+                "line": 450
+              },
+              "examples": []
+            },
+            {
+              "name": "ServeHTTP",
+              "doc": "Negroni compatible interface",
+              "signature": "func  ServeHTTP(w http.ResponseWriter, r *http.Request, next http.HandlerFunc)",
+              "position": {
+                "file": "cors.go",
+                "line": 308
+              },
+              "examples": []
+            }
+          ],
+          "examples": []
+        },
+        {
+          "name": "Logger",
+          "doc": "Logger generic interface for logger",
+          "declaration": "type Logger interface {\n\tPrintf(string, ...any)\n}",
+          "kind": "interface",
+          "position": {
+            "file": "cors.go",
+            "line": 104
+          },
+          "fields": [
+            {
+              "name": "Printf",
+              "doc": "",
+              "type": "func(string, ...any)"
+            }
+          ],
+          "methods": [],
+          "examples": []
+        },
+        {
+          "name": "Options",
+          "doc": "Options is a configuration container to setup the CORS middleware.",
+          "declaration": "type Options struct {\n\t// AllowedOrigins is a list of origins a cross-domain request can be executed from.\n\t// If the special \"*\" value is present in the list, all origins will be allowed.\n\t// An origin may contain a wildcard (*) to replace 0 or more characters\n\t// (i.e.: http://*.domain.com). Usage of wildcards implies a small performance penalty.\n\t// Only one wildcard can be used per origin.\n\t// Default value is [\"*\"]\n\tAllowedOrigins []string\n\t// AllowOriginFunc is a custom function to validate the origin. It take the\n\t// origin as argument and returns true if allowed or false otherwise. If\n\t// this option is set, the content of `AllowedOrigins` is ignored.\n\tAllowOriginFunc func(origin string) bool\n\t// AllowOriginRequestFunc is a custom function to validate the origin. It\n\t// takes the HTTP Request object and the origin as argument and returns true\n\t// if allowed or false otherwise. If headers are used take the decision,\n\t// consider using AllowOriginVaryRequestFunc instead. If this option is set,\n\t// the contents of `AllowedOrigins`, `AllowOriginFunc` are ignored.\n\t//\n\t// Deprecated: use `AllowOriginVaryRequestFunc` instead.\n\tAllowOriginRequestFunc func(r *http.Request, origin string) bool\n\t// AllowOriginVaryRequestFunc is a custom function to validate the origin.\n\t// It takes the HTTP Request object and the origin as argument and returns\n\t// true if allowed or false otherwise with a list of headers used to take\n\t// that decision if any so they can be added to the Vary header. If this\n\t// option is set, the contents of `AllowedOrigins`, `AllowOriginFunc` and\n\t// `AllowOriginRequestFunc` are ignored.\n\tAllowOriginVaryRequestFunc func(r *http.Request, origin string) (bool, []string)\n\t// AllowedMethods is a list of methods the client is allowed to use with\n\t// cross-domain requests. Default value is simple methods (HEAD, GET and POST).\n\tAllowedMethods []string\n\t// AllowedHeaders is list of non simple headers the client is allowed to use with\n\t// cross-domain requests.\n\t// If the special \"*\" value is present in the list, all headers will be allowed.\n\t// Default value is [].\n\tAllowedHeaders []string\n\t// ExposedHeaders indicates which headers are safe to expose to the API of a CORS\n\t// API specification\n\tExposedHeaders []string\n\t// MaxAge indicates how long (in seconds) the results of a preflight request\n\t// can be cached. Default value is 0, which stands for no\n\t// Access-Control-Max-Age header to be sent back, resulting in browsers\n\t// using their default value (5s by spec). If you need to force a 0 max-age,\n\t// set `MaxAge` to a negative value (ie: -1).\n\tMaxAge int\n\t// AllowCredentials indicates whether the request can include user credentials like\n\t// cookies, HTTP authentication or client side SSL certificates.\n\tAllowCredentials bool\n\t// AllowPrivateNetwork indicates whether to accept cross-origin requests over a\n\t// private network.\n\tAllowPrivateNetwork bool\n\t// OptionsPassthrough instructs preflight to let other potential next handlers to\n\t// process the OPTIONS method. Turn this on if your application handles OPTIONS.\n\tOptionsPassthrough bool\n\t// Provides a status code to use for successful OPTIONS requests.\n\t// Default value is http.StatusNoContent (204).\n\tOptionsSuccessStatus int\n\t// Debugging flag adds additional output to debug server side CORS issues\n\tDebug bool\n\t// Adds a custom logger, implies Debug is true\n\tLogger Logger\n}",
+          "kind": "struct",
+          "position": {
+            "file": "cors.go",
+            "line": 41
+          },
+          "fields": [
+            {
+              "name": "AllowedOrigins",
+              "doc": "AllowedOrigins is a list of origins a cross-domain request can be executed from.\nIf the special \"*\" value is present in the list, all origins will be allowed.\nAn origin may contain a wildcard (*) to replace 0 or more characters\n(i.e.: http://*.domain.com). Usage of wildcards implies a small performance penalty.\nOnly one wildcard can be used per origin.\nDefault value is [\"*\"]",
+              "type": "[]string"
+            },
+            {
+              "name": "AllowOriginFunc",
+              "doc": "AllowOriginFunc is a custom function to validate the origin. It take the\norigin as argument and returns true if allowed or false otherwise. If\nthis option is set, the content of `AllowedOrigins` is ignored.",
+              "type": "func(origin string) bool"
+            },
+            {
+              "name": "AllowOriginRequestFunc",
+              "doc": "AllowOriginRequestFunc is a custom function to validate the origin. It\ntakes the HTTP Request object and the origin as argument and returns true\nif allowed or false otherwise. If headers are used take the decision,\nconsider using AllowOriginVaryRequestFunc instead. If this option is set,\nthe contents of `AllowedOrigins`, `AllowOriginFunc` are ignored.\n\nDeprecated: use `AllowOriginVaryRequestFunc` instead.",
+              "type": "func(r *http.Request, origin string) bool"
+            },
+            {
+              "name": "AllowOriginVaryRequestFunc",
+              "doc": "AllowOriginVaryRequestFunc is a custom function to validate the origin.\nIt takes the HTTP Request object and the origin as argument and returns\ntrue if allowed or false otherwise with a list of headers used to take\nthat decision if any so they can be added to the Vary header. If this\noption is set, the contents of `AllowedOrigins`, `AllowOriginFunc` and\n`AllowOriginRequestFunc` are ignored.",
+              "type": "func(r *http.Request, origin string) (bool, []string)"
+            },
+            {
+              "name": "AllowedMethods",
+              "doc": "AllowedMethods is a list of methods the client is allowed to use with\ncross-domain requests. Default value is simple methods (HEAD, GET and POST).",
+              "type": "[]string"
+            },
+            {
+              "name": "AllowedHeaders",
+              "doc": "AllowedHeaders is list of non simple headers the client is allowed to use with\ncross-domain requests.\nIf the special \"*\" value is present in the list, all headers will be allowed.\nDefault value is [].",
+              "type": "[]string"
+            },
+            {
+              "name": "ExposedHeaders",
+              "doc": "ExposedHeaders indicates which headers are safe to expose to the API of a CORS\nAPI specification",
+              "type": "[]string"
+            },
+            {
+              "name": "MaxAge",
+              "doc": "MaxAge indicates how long (in seconds) the results of a preflight request\ncan be cached. Default value is 0, which stands for no\nAccess-Control-Max-Age header to be sent back, resulting in browsers\nusing their default value (5s by spec). If you need to force a 0 max-age,\nset `MaxAge` to a negative value (ie: -1).",
+              "type": "int"
+            },
+            {
+              "name": "AllowCredentials",
+              "doc": "AllowCredentials indicates whether the request can include user credentials like\ncookies, HTTP authentication or client side SSL certificates.",
+              "type": "bool"
+            },
+            {
+              "name": "AllowPrivateNetwork",
+              "doc": "AllowPrivateNetwork indicates whether to accept cross-origin requests over a\nprivate network.",
+              "type": "bool"
+            },
+            {
+              "name": "OptionsPassthrough",
+              "doc": "OptionsPassthrough instructs preflight to let other potential next handlers to\nprocess the OPTIONS method. Turn this on if your application handles OPTIONS.",
+              "type": "bool"
+            },
+            {
+              "name": "OptionsSuccessStatus",
+              "doc": "Provides a status code to use for successful OPTIONS requests.\nDefault value is http.StatusNoContent (204).",
+              "type": "int"
+            },
+            {
+              "name": "Debug",
+              "doc": "Debugging flag adds additional output to debug server side CORS issues",
+              "type": "bool"
+            },
+            {
+              "name": "Logger",
+              "doc": "Adds a custom logger, implies Debug is true",
+              "type": "Logger"
+            }
+          ],
+          "methods": [],
+          "examples": []
+        }
+      ],
+      "examples": []
+    }
+  ]
+}
